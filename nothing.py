@@ -55,7 +55,10 @@ print db_session.query(exists().where(user_table.id == 3).label('exist_id')).sca
 
 print "~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-sub_query = db_session.query(User.user_name.label('user_name')).filter(User.id == 3).subquery('sub')
-print db_session.query(User.user_name.label('user_name')).filter(User.user_name == sub_query.c.user_name).all()
+sub_query = db_session.query(User.user_name.label('user_name'), User.id.label('user_id')).filter(User.id == 3).subquery(
+    'sub')
+# columns¸úcÒ»Ñù
+print db_session.query(User.user_name.label('user_name')).filter(User.id == sub_query.columns.user_id).all()
+
 
 print "~~~~~~~~~~~~~~~~~~~~~~~~~"
